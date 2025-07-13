@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nowe Horyzonty 2025 - Interactive Movie Map</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Nowe Horyzonty 2025</h1>
+            <p class="subtitle">Interactive Movie Map</p>
+        </header>
+
+        <div class="controls">
+            <div class="filter-section">
+                <label for="section-filter">Filter by Section:</label>
+                <select id="section-filter">
+                    <option value="">All Sections</option>
+                </select>
+            </div>
+            <div class="stats">
+                <span id="movie-count">0 movies</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="visualization-section">
+                <div class="visualization-container">
+                    <div class="viz-controls">
+                        <button id="legend-toggle" class="control-btn">
+                            <span class="toggle-icon">👁️</span>
+                            <span class="toggle-text">Hide Legend</span>
+                        </button>
+                    </div>
+                    <svg id="movie-map"></svg>
+                    <div id="tooltip"></div>
+                </div>
+                
+                <div class="legend-container" id="legend-container">
+                    <!-- Legend will be created here by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="details-panel" id="details-panel">
+                <div class="details-header">
+                    <h3>Movie Details</h3>
+                    <button id="close-details">&times;</button>
+                </div>
+                <div class="details-content" id="details-content">
+                    <p class="placeholder">Click on a movie to see details</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
