@@ -1,6 +1,6 @@
 # Nowe Horyzonty 2025 - Interactive Movie Map
 
-A stunning interactive visualization of the Nowe Horyzonty 2025 film festival movies plotted on a 2D map using UMAP coordinates.
+An interactive visualization of the Nowe Horyzonty 2025 film festival movies plotted on a 2D map using UMAP coordinates.
 
 ## Features
 
@@ -11,7 +11,6 @@ A stunning interactive visualization of the Nowe Horyzonty 2025 film festival mo
 - **Detailed Side Panel**: Click on any movie to see full details including description, screenings, and metadata
 - **Zoom and Pan**: Navigate the map with mouse wheel zoom and drag
 - **Responsive Design**: Works on desktop and mobile devices
-- **Beautiful Dark Theme**: Modern UI with smooth animations
 
 ## Technologies Used
 
@@ -47,16 +46,6 @@ A stunning interactive visualization of the Nowe Horyzonty 2025 film festival mo
 
 4. Open your browser and go to `http://localhost:8000`
 
-## Deploying to GitHub Pages
-
-1. Push your code to a GitHub repository
-2. Go to your repository settings
-3. Navigate to "Pages" in the left sidebar
-4. Select "Deploy from a branch"
-5. Choose "main" branch and "/web" folder
-6. Click "Save"
-7. Your visualization will be available at `https://yourusername.github.io/repository-name/`
-
 ## Data Structure
 
 The visualization uses movie data with the following structure:
@@ -83,61 +72,6 @@ The visualization uses movie data with the following structure:
 }
 ```
 
-## Customization
-
-### Adding New Sections
-
-To add support for new festival sections, update the `sectionColors` object in `script.js`:
-
-```javascript
-const sectionColors = {
-    'Your New Section': '#your-color-hex',
-    // ... existing sections
-};
-```
-
-### Changing Colors
-
-Modify the CSS variables in `styles.css` to change the theme:
-
-```css
-:root {
-    --primary-color: #6366f1;
-    --secondary-color: #8b5cf6;
-    --background-color: #0f0f23;
-    /* ... other variables */
-}
-```
-
-### Adjusting Visualization
-
-You can modify the D3.js visualization parameters in `script.js`:
-
-- Circle radius: Change the `attr('r', 6)` value
-- Animation duration: Modify `.duration(500)` values
-- Zoom extent: Adjust `.scaleExtent([0.5, 5])`
-
-## Browser Support
-
-- Chrome 60+
-- Firefox 55+
-- Safari 12+
-- Edge 79+
-
 ## License
 
 This project is open source and available under the [MIT License](LICENSE).
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## Acknowledgments
-
-- Nowe Horyzonty Film Festival for the movie data
-- D3.js community for the excellent visualization library
-- UMAP algorithm for the dimensional reduction coordinates 
