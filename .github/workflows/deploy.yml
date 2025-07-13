@@ -27,13 +27,10 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
-      - name: Copy web directory contents to root
+      - name: List contents (for debugging)
         run: |
-          cp web/index.html .
-          cp web/script.js .
-          cp web/styles.css .
-          cp web/full_movie_details.json .
           ls -la
+          ls -la web/
           
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
