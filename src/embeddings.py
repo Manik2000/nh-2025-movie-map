@@ -16,10 +16,12 @@ def embed_text(client: genai.Client, texts: list[str]) -> list[float]:
     return embeddings_response.embeddings
 
 
-def batch_embed_text(client: genai.Client, texts: list[str], batch_size: int = 10) -> list[float]:
+def batch_embed_text(
+    client: genai.Client, texts: list[str], batch_size: int = 10
+) -> list[float]:
     embeddings = []
     for i in tqdm(range(0, len(texts), batch_size)):
-        batch = texts[i:i+batch_size]
+        batch = texts[i : i + batch_size]
         embeddings.extend(embed_text(client=client, texts=batch))
         sleep(20)
     return embeddings
@@ -31,7 +33,9 @@ def main():
 
     raw_movie_details = json.load(open("data/raw_movie_details.json"))
 
-    embeddings = batch_embed_text(client=client, texts=[movie["description"] for movie in raw_movie_details])
+    embeddings = batch_embed_text(
+        client=client, texts=[movie["description"] for movie in raw_movie_details]
+    )
     embeddings_arrays = [embedding.values for embedding in embeddings]
 
     with open("data/embeddings.json", "w") as f:
@@ -40,9 +44,9 @@ def main():
     one_array = np.array(embeddings_arrays)
     reducer = umap.UMAP(
         n_components=2,
-        metric="cosine", 
-        n_neighbors=20, 
-        random_state=42, 
+        metric="cosine",
+        n_neighbors=20,
+        random_state=42,
         repulsion_strength=2,
         spread=2,
     )
@@ -62,6 +66,7 @@ def main():
 
     with open("data/full_movie_details.json", "w") as f:
         json.dump(full_movie_details, f)
+
 
 if __name__ == "__main__":
     main()

@@ -33,7 +33,7 @@ const sectionColors = {
 let movieData = [];
 let svg, width, height;
 let xScale, yScale, colorScale;
-let currentFilter = '';
+let currentFilters = []; // Array to store multiple selected sections
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
@@ -54,7 +54,6 @@ function loadMovieData() {
         .then(data => {
             movieData = data;
             updateVisualization();
-            populateFilterOptions();
             updateMovieCount();
             updateLegend();
         })
@@ -63,7 +62,6 @@ function loadMovieData() {
             // Fallback: use sample data for demo
             movieData = getSampleData();
             updateVisualization();
-            populateFilterOptions();
             updateMovieCount();
             updateLegend();
         });
@@ -79,13 +77,6 @@ function getSampleData() {
 }
 
 function setupEventListeners() {
-    // Section filter
-    document.getElementById('section-filter').addEventListener('change', function(e) {
-        currentFilter = e.target.value;
-        updateVisualization();
-        updateMovieCount();
-    });
-    
     // Close details panel
     document.getElementById('close-details').addEventListener('click', function() {
         hideMovieDetails();
@@ -176,9 +167,9 @@ function updateVisualization() {
     
     updateScales();
     
-    // Filter data based on current filter
-    const filteredData = currentFilter ? 
-        movieData.filter(d => d.section === currentFilter) : 
+    // Filter data based on current filters
+    const filteredData = currentFilters.length > 0 ? 
+        movieData.filter(d => currentFilters.includes(d.section)) : 
         movieData;
     
     const mainGroup = svg.select('.main-group');
@@ -326,27 +317,31 @@ function hideMovieDetails() {
     }, 300);
 }
 
-function populateFilterOptions() {
-    const select = document.getElementById('section-filter');
-    const sections = [...new Set(movieData.map(d => d.section))].sort();
-    
-    // Clear existing options except "All Sections"
-    select.innerHTML = '<option value="">All Sections</option>';
-    
-    sections.forEach(section => {
-        const option = document.createElement('option');
-        option.value = section;
-        option.textContent = section;
-        select.appendChild(option);
-    });
-}
+
 
 function updateMovieCount() {
-    const filteredCount = currentFilter ? 
-        movieData.filter(d => d.section === currentFilter).length : 
+    const filteredCount = currentFilters.length > 0 ? 
+        movieData.filter(d => currentFilters.includes(d.section)).length : 
         movieData.length;
     
-    document.getElementById('movie-count').textContent = `${filteredCount} movies`;
+    // Update or create movie count display on the plot
+    const countDisplay = svg.select('.movie-count');
+    if (countDisplay.empty()) {
+        svg.append('text')
+            .attr('class', 'movie-count')
+            .attr('x', 20)
+            .attr('y', 30)
+            .style('fill', '#64748b')
+            .style('font-size', '14px')
+            .style('font-weight', '500')
+            .style('font-family', 'Inter, sans-serif');
+    }
+    
+    const filterText = currentFilters.length > 0 ? 
+        ` (${currentFilters.length} section${currentFilters.length > 1 ? 's' : ''} selected)` : '';
+    
+    svg.select('.movie-count')
+        .text(`${filteredCount} movies${filterText}`);
 }
 
 function createLegend() {
@@ -392,16 +387,42 @@ function toggleLegend() {
     }
 }
 
+function handleLegendClick(section) {
+    if (section === '') {
+        // Clear all filters
+        currentFilters = [];
+    } else {
+        // Toggle section in filters array
+        const index = currentFilters.indexOf(section);
+        if (index > -1) {
+            // Remove section from filters
+            currentFilters.splice(index, 1);
+        } else {
+            // Add section to filters
+            currentFilters.push(section);
+        }
+    }
+    
+    // Update visualization and count
+    updateVisualization();
+    updateMovieCount();
+    updateLegend(); // Update legend active states
+}
+
 function updateLegend() {
     const legend = d3.select('.legend');
     const sections = [...new Set(movieData.map(d => d.section))].sort();
     
+    // Add "All Sections" option at the top
+    const allSectionsData = ['All Sections', ...sections];
+    
     const legendItems = legend.selectAll('.legend-item')
-        .data(sections);
+        .data(allSectionsData);
     
     const legendEnter = legendItems.enter()
         .append('div')
-        .attr('class', 'legend-item');
+        .attr('class', 'legend-item')
+        .style('cursor', 'pointer');
     
     legendEnter.append('div')
         .attr('class', 'legend-color');
@@ -409,13 +430,45 @@ function updateLegend() {
     legendEnter.append('span')
         .attr('class', 'legend-text');
     
-    legendItems.merge(legendEnter)
-        .select('.legend-color')
-        .style('background-color', d => sectionColors[d] || '#b8a8d6');
+    const mergedItems = legendItems.merge(legendEnter);
     
-    legendItems.merge(legendEnter)
+    mergedItems
+        .select('.legend-color')
+        .style('background-color', d => {
+            if (d === 'All Sections') {
+                return '#94a3b8'; // Gray for "All Sections"
+            }
+            return sectionColors[d] || '#b8a8d6';
+        });
+    
+    mergedItems
         .select('.legend-text')
         .text(d => d);
+    
+    // Update active state based on current filters
+    mergedItems
+        .classed('active', d => {
+            if (d === 'All Sections') {
+                return currentFilters.length === 0;
+            }
+            return currentFilters.includes(d);
+        })
+        .classed('inactive', d => {
+            if (d === 'All Sections') {
+                return false;
+            }
+            return currentFilters.length > 0 && !currentFilters.includes(d);
+        });
+    
+    // Add click event listeners
+    mergedItems
+        .on('click', function(event, d) {
+            if (d === 'All Sections') {
+                handleLegendClick('');
+            } else {
+                handleLegendClick(d);
+            }
+        });
     
     legendItems.exit().remove();
 }

@@ -51,56 +51,7 @@ header h1 {
     font-weight: 300;
 }
 
-.controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background: var(--surface-color);
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
 
-.filter-section {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.filter-section label {
-    font-weight: 500;
-    color: var(--text-secondary);
-}
-
-select {
-    padding: 0.75rem 1rem;
-    background: var(--surface-color);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    color: var(--text-primary);
-    font-size: 0.9rem;
-    min-width: 200px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-
-select:hover {
-    border-color: var(--primary-color);
-}
-
-select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-}
-
-.stats {
-    font-weight: 500;
-    color: var(--text-secondary);
-}
 
 .main-content {
     display: grid;
@@ -423,20 +374,6 @@ select:focus {
     header h1 {
         font-size: 2rem;
     }
-    
-    .controls {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: stretch;
-    }
-    
-    .filter-section {
-        justify-content: center;
-    }
-    
-    select {
-        min-width: 150px;
-    }
 }
 
 /* Custom scrollbar */
@@ -487,6 +424,23 @@ select:focus {
     gap: 0.5rem;
     margin-bottom: 0.25rem;
     font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.legend-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.legend-item.active {
+    background-color: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    font-weight: 500;
+}
+
+.legend-item.inactive {
+    opacity: 0.5;
 }
 
 .legend-color {
@@ -494,4 +448,9 @@ select:focus {
     height: 12px;
     border-radius: 50%;
     border: 1px solid rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.legend-text {
+    user-select: none;
 } 
