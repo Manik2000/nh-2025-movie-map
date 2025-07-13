@@ -29,7 +29,10 @@ jobs:
         
       - name: Copy web directory contents to root
         run: |
-          cp -r web/* .
+          cp web/index.html .
+          cp web/script.js .
+          cp web/styles.css .
+          cp web/full_movie_details.json .
           ls -la
           
       - name: Upload artifact
