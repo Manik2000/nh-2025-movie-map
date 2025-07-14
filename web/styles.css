@@ -79,6 +79,7 @@ header h1 {
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     flex: 1;
+    touch-action: pan-x pan-y pinch-zoom;
 }
 
 .legend-container {
@@ -133,6 +134,7 @@ header h1 {
     width: 100%;
     height: 100%;
     display: block;
+    touch-action: pan-x pan-y pinch-zoom;
 }
 
 .details-panel {
@@ -368,11 +370,161 @@ header h1 {
     .container {
         padding: 1rem;
     }
+    
+    .viz-controls {
+        top: 0.5rem;
+        right: 0.5rem;
+    }
 }
 
 @media (max-width: 768px) {
+    .container {
+        padding: 0.75rem;
+    }
+    
+    header {
+        margin-bottom: 2rem;
+    }
+    
     header h1 {
         font-size: 2rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .visualization-container {
+        min-height: 400px;
+    }
+    
+    .control-btn {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+        min-height: 44px; /* Minimum touch target size */
+    }
+    
+    .legend-container {
+        max-height: 250px;
+    }
+    
+    .details-panel {
+        padding: 1rem;
+        max-height: 400px;
+    }
+    
+    .movie-title {
+        font-size: 1.2rem;
+    }
+    
+    .circle {
+        r: 6;
+    }
+    
+    .circle:hover,
+    .circle.highlighted {
+        r: 8;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0.5rem;
+    }
+    
+    header h1 {
+        font-size: 1.75rem;
+    }
+    
+    .subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .visualization-container {
+        min-height: 350px;
+        border-radius: 8px;
+    }
+    
+    .legend-container {
+        border-radius: 8px;
+        max-height: 200px;
+    }
+    
+    .details-panel {
+        border-radius: 8px;
+        padding: 0.75rem;
+        max-height: 350px;
+    }
+    
+    .details-header h3 {
+        font-size: 1.2rem;
+    }
+    
+    .movie-title {
+        font-size: 1.1rem;
+    }
+    
+    .movie-description {
+        font-size: 0.9rem;
+    }
+    
+    .meta-item {
+        font-size: 0.8rem;
+    }
+    
+    .screening-item {
+        padding: 0.5rem;
+    }
+    
+    .control-btn {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.8rem;
+        min-height: 44px;
+    }
+    
+    .legend-item {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.4rem;
+    }
+    
+    .legend-color {
+        width: 10px;
+        height: 10px;
+    }
+    
+    .viz-controls {
+        top: 0.25rem;
+        right: 0.25rem;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .circle {
+        r: 7; /* Larger default size for touch */
+    }
+    
+    .circle:hover {
+        /* Remove hover effects on touch devices */
+        stroke: rgba(0, 0, 0, 0.08);
+        stroke-width: 1;
+        r: 7;
+        opacity: 0.85;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    }
+    
+    .control-btn:hover {
+        background: rgba(255, 255, 255, 0.9);
+        transform: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .legend-item:hover {
+        background-color: transparent;
+    }
+    
+    .legend-item {
+        padding: 0.4rem 0.5rem; /* Larger touch targets */
     }
 }
 
